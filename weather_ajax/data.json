@@ -1,0 +1,28 @@
+{
+    "delhi":{
+        "temp":50,
+        "humidity":30,
+        "wind_speed":15
+    },
+    "mumbai":{
+        "temp":50,
+        "humidity":30,
+        "wind_speed":15
+    },
+    "kolhapur":{
+        "temp":50,
+        "humidity":30,
+        "wind_speed":15
+    },
+    "sangli":{
+        "temp":50,
+        "humidity":30,
+        "wind_speed":15
+    },
+    "pune":{
+        "temp":50,
+        "humidity":30,
+        "wind_speed":15
+    }
+
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <title>Register & Login</title>
+</head>
+
+<body>
+    <h2>Register</h2>
+    <form>
+        <input type="text" id="reg-username" placeholder="username" required>
+        <input type="email" id="reg-email" placeholder="email" required>
+        <input type="number" id="reg-number" placeholder="number" required>
+        <input type="date" id="reg-date" required>
+        <input type="text" id="reg-city" placeholder="city" required>
+        <input type="text" id="reg-address" placeholder="address" required>
+        <input type="text" id="reg-password" placeholder="password" required>
+        <button type="button" onclick="addUser()">Register</button>
+    </form>
+
+    <h2>Login</h2>
+    <form>
+        <input type="text" id="login-username" placeholder="username" required>
+        <input type="text" id="login-password" placeholder="password" required>
+        <button type="button" onclick="loginUser()">Login</button>
+    </form>
+
+    <div id="result"></div>
+    <a href="users.html">See All Users</a>
+
+    <script>
+        function addUser() {
+            const user = {
+                username: document.getElementById("reg-username").value,
+                email: document.getElementById("reg-email").value,
+                mobile_number: document.getElementById("reg-number").value,
+                dob: document.getElementById("reg-date").value,
+                city: document.getElementById("reg-city").value,
+                address: document.getElementById("reg-address").value,
+                password: document.getElementById("reg-password").value
+            };
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost:3000/add", true);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    const response = JSON.parse(xhr.responseText);
+                    document.getElementById("result").innerHTML = `<h3>${response.message}</h3>`;
+                }
+            };
+            xhr.send(JSON.stringify(user));
+        }
+
+        function loginUser() {
+            const credentials = {
+                username: document.getElementById("login-username").value,
+                password: document.getElementById("login-password").value
+            };
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost:3000/login", true);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    const response = JSON.parse(xhr.responseText);
+                    document.getElementById("result").innerHTML = `<h3>${response.message}</h3>`;
+                }
+            };
+            xhr.send(JSON.stringify(credentials));
+        }
+    </script>
+</body>
+
+</html>

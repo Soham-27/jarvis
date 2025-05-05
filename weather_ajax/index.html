@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Card</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #f0f2f5;
+            font-family: Arial, sans-serif;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 20px 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            text-align: center;
+            min-width: 250px;
+        }
+
+        .card h1 {
+            margin: 10px 0;
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" placeholder="Enter your city name" id="city">
+    <button type="button" onclick="getWeather()">Get Weather</button>
+    <div id="result"></div>
+
+    <script>
+        function getWeather() {
+            const city = document.getElementById("city").value.trim();
+            let result = document.getElementById("result");
+            result.innerHTML = ""; // clear previous result
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "data.json", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    const data = response[city];
+
+                    if (data) {
+                        result.innerHTML = `<div class="card">
+                            <h1>Temperature: ${data.temp}</h1>
+                            <h1>Humidity: ${data.humidity}</h1>
+                            <h1>Wind Speed: ${data.wind_speed}</h1>
+                        </div>`;
+                    } else {
+                        result.innerHTML = `<div class="card"><h1>City not found</h1></div>`;
+                    }
+                }
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+
+</html>

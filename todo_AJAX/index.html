@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: aqua;
+        }
+
+        .hero {
+            border: solid 2px solid;
+            background-color: aquamarine;
+            width: 400px;
+            height: 100vh;
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            align-items: center;
+        }
+
+        #des {
+            border-radius: 3px;
+            height: 20px;
+        }
+
+        .form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero ">
+        <h1>TO DO list</h1>
+        <form>
+            <div class="form">
+                <input type="text" placeholder="enter descrription of tasks" id="des">
+                <button type="button" onclick="addtask()">add tasks</button>
+            </div>
+
+        </form>
+        <div id="result">
+
+        </div>
+        <div id="message">
+
+        </div>
+    </div>
+    <script>
+        function addtask() {
+            const description = document.getElementById("des").value;
+            console.log(description);
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost:3000/addtask", true);
+            xhr.setRequestHeader("Content-Type", "application/json")
+            xhr.onreadystatechange = function () {
+                if (xhr.status == 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    console.log(response);
+                    let message = document.getElementById("message");
+                    message.innerHTML = `<h5>${response.message}</h5>`;
+                    gettask();
+                }
+            }
+            xhr.send(JSON.stringify({ "des": description }));
+        }
+
+        function gettask() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://localhost:3000/get-all-task", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    console.log(response)
+                    let resultlist = document.getElementById("result");
+                    resultlist.innerHTML = ""; // Clear previous list
+                    const tasks = response.tasks;
+                    tasks.forEach(task => {
+                        resultlist.innerHTML += `
+                        <p>${task.des}</p>
+                        <button type="button" onclick="deletetask(${task.id})">Delete</button>
+                        <button type="button" onclick="updatetask(${task.id}, des=prompt('Update task description:'))">Update</button>
+                        <hr />
+                    `;
+                    });
+                }
+            };
+            xhr.send();
+        }
+
+        function deletetask(id) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("DELETE", `http://localhost:3000/delete/${id}`, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.status == 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    console.log(response);
+                    let message = document.getElementById("message");
+                    message.innerHTML = `<h5>${response.message}</h5>`;
+                    gettask();
+                }
+            }
+            xhr.send();
+        }
+        gettask();
+
+        function updatetask(id, des) {
+            // console.log(description);
+            const xhr = new XMLHttpRequest();
+            xhr.open("PUT", `http://localhost:3000/update/${id}`, true);
+            xhr.setRequestHeader("Content-Type", "application/json")
+            xhr.onreadystatechange = function () {
+                if (xhr.status == 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    console.log(response);
+                    let message = document.getElementById("message");
+                    message.innerHTML = `<h5>${response.message}</h5>`;
+                    gettask();
+                }
+            }
+            xhr.send(JSON.stringify({ "des": des }));
+        }
+
+    </script>
+</body>
+
+</html>

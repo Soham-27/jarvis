@@ -1,0 +1,14 @@
+.facebook-header{
+    font-size: 42px;
+    font-weight: bold;
+    background-color: cornflowerblue;
+    color: azure;
+    justify-content: left;
+    padding: 10px;
+}
+
+.fb_form input{
+    margin-bottom: 30px;
+}
+
+

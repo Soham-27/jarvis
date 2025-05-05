@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>nice</h1>
+    <form>
+        <input type="text" id="name" placeholder="Enter name">
+        <input type="text" id="artist" placeholder="Enter artist">
+        <input type="text" id="film_name" placeholder="Enter film name">
+        <input type="text" id="views" placeholder="Enter views">
+        <input type="text" id="likes" placeholder="Enter likes">
+        <button type="button" onclick="addData()">Submit</button>
+    </form>
+    <script>
+        async function fetchData() {
+            const response = await fetch(`http://localhost:5000/getall`);
+            const data = await response.json();
+            console.log(data);
+        }
+
+        async function addData() {
+            console.log("hello");
+            const name = document.getElementById("name").value;
+            const artist = document.getElementById("artist").value;
+            const film_name = document.getElementById("film_name").value;
+            const views = document.getElementById("views").value;
+            const likes = document.getElementById("likes").value;
+
+            const response = await fetch("http://localhost:5000/addsong", {
+                method: "POST",
+                headers: {
+                    "content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: name,
+                    artist: artist,
+                    film_name: film_name,
+                    views: views,
+                    likes: likes
+                }
+                )
+            }
+            );
+
+            console.log(response.ok)
+
+
+
+        }
+        fetchData();
+    </script>
+</body>
+
+</html>

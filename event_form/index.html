@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body class="bg-warning">
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Register for event</h2>
+        <form>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="name" placeholder="Your Name" name="name" required>
+                <label for="name">Full Name</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" placeholder="name@gmail.com" name="email" required>
+                <label for="email">Email</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="email" placeholder="name@gmail.com" name="number" required
+                    pattern="[0-9]{10}">
+                <label for="number">Mobile number</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select class="form-select" required name="event">
+                    <option select disabled value="">Choose...</option>
+                    <option value="tech">Tech Talk</option>
+                    <option value="workshop">Workshop</option>
+                    <option value="competition">Competition</option>
+                </select>
+                <label for="event">Event </label>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="agree" name="agree" required>
+                <label class="form-check-label" for="agree">
+                    I agree to the terms and conditions
+                </label>
+            </div>
+
+            <button class="btn btn-primary" type="submit">
+                Submit
+            </button>
+        </form>
+</body>
+
+</html>
